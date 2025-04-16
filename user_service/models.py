@@ -12,6 +12,7 @@ class User(db.Model):
     phone_number = db.Column(db.String(30), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    balance = db.Column(db.Float, default=0.0)
 
     def __repr__(self):
         return f"<User> {self.username}"

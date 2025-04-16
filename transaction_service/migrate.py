@@ -2,10 +2,8 @@ import os
 from app import create_app
 from flask_migrate import upgrade, migrate, init
 
-# Инициализация приложения
 app = create_app()
 
-# Указываем путь до папки миграций в корне проекта
 migrations_dir = os.path.join(os.path.dirname(__file__), 'migrations')
 
 if not os.path.exists(migrations_dir):

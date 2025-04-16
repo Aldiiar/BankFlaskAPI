@@ -30,8 +30,8 @@ def login_user(data):
     user = User.query.filter_by(username=data["username"]).first()
     if user and check_password_hash(user.password_hash, data["password_hash"]):
 
-        access_token = create_access_token(identity=user.username)
-        refresh_token = create_refresh_token(identity=user.username)
+        access_token = create_access_token(identity=str(user.id))
+        refresh_token = create_refresh_token(identity=str(user.id))
 
         return jsonify(
             {
@@ -47,8 +47,8 @@ def login_user(data):
 
 @jwt_required()
 def user_profile():
-    current_username = get_jwt_identity()
-    user = User.query.filter_by(username=current_username).first()
+    current_user_id = get_jwt_identity()
+    user = User.query.filter_by(id=current_user_id).first()
 
     if not user:
         return jsonify({"error": "User is not found!"}), 404
@@ -58,5 +58,6 @@ def user_profile():
         "phone_number": user.phone_number,
         "first_name": user.first_name,
         "last_name": user.last_name,
-        "email": user.email
+        "email": user.email,
+        "balance": user.balance
     }), 200

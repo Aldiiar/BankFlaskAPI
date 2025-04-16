@@ -2,6 +2,7 @@ from flask import Flask, request
 from configuration import Config
 from db_connection import db, jwt
 from auth_logics import register_user, login_user, user_profile
+from users_logics import get_user_by_phone, get_user_by_id, update_balance
 from models import User
 from flask_migrate import Migrate
 
@@ -32,6 +33,19 @@ def create_app():
     def get_profile():
         return user_profile()
 
+    @app.route("/users/<int:user_id>", methods=["GET"])
+    def get_users_data(user_id):
+        return get_user_by_id(user_id)
+
+    @app.route("/users/by_phone/<string:phone_number>", methods=["GET"])
+    def get_user_by_phone_route(phone_number):
+        return get_user_by_phone(phone_number)
+
+    @app.route("/users/update_balance", methods=["POST"])
+    def update_user_balance():
+        data = request.get_json()
+
+        return update_balance(data)
 
     return app
 
